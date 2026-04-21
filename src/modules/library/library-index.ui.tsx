@@ -3,6 +3,7 @@
 import type { LibraryCategory, LibraryEntry } from '@/core/content/types'
 import { SearchInput } from '@/components/search-input'
 import { EmptyState } from '@/components/empty-state'
+import { Container } from '@/components/base/container'
 import { CategoryCard } from './components/category-card'
 import { DifficultyFilter } from './components/difficulty-filter'
 import { EntryList } from './components/entry-list'
@@ -18,15 +19,25 @@ export function LibraryIndexUI({ categories, entries }: Props) {
         useLibraryIndexFilters(entries)
 
     return (
-        <div className="mx-auto max-w-5xl px-4 py-8">
-            <header className="mb-8">
-                <h1 className="text-3xl font-bold">Library</h1>
-                <p className="mt-1 text-gray-500">Frontend knowledge reference.</p>
+        <Container>
+            <header className="mb-8 flex items-end justify-between border-b border-[#2d2d2d] pb-4">
+                <h1 className="font-mono text-3xl text-cyan-400">Knowledge Library</h1>
+                <div className="font-mono text-xs text-slate-500">
+                    {filtered.length}
+                    {hasFilters ? ` / ${entries.length}` : ''} entr{entries.length === 1 ? 'y' : 'ies'}
+                </div>
             </header>
 
             <section className="mb-10">
-                <h2 className="mb-4 text-xl font-semibold">Categories</h2>
-                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                <div className="mb-4 flex items-baseline gap-3">
+                    <h2 className="font-mono text-sm tracking-widest text-slate-400 uppercase">
+                        // categories
+                    </h2>
+                    <span className="font-mono text-[11px] text-slate-600">
+                        {categories.length} total
+                    </span>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {categories.map((c) => (
                         <CategoryCard key={c.slug} category={c} />
                     ))}
@@ -34,20 +45,32 @@ export function LibraryIndexUI({ categories, entries }: Props) {
             </section>
 
             <section>
-                <h2 className="mb-4 text-xl font-semibold">All entries</h2>
-                <div className="mb-6 space-y-4">
-                    <SearchInput value={search} onChange={setSearch} placeholder="Search entries…" />
-                    <DifficultyFilter selected={difficulty} onChange={setDifficulty} />
-                    {hasFilters && (
-                        <button
-                            type="button"
-                            onClick={reset}
-                            className="text-sm text-gray-500 hover:underline"
-                        >
-                            Reset
-                        </button>
-                    )}
+                <div className="mb-4 flex items-baseline gap-3">
+                    <h2 className="font-mono text-sm tracking-widest text-slate-400 uppercase">
+                        // all entries
+                    </h2>
                 </div>
+
+                <div className="mb-6 space-y-3">
+                    <SearchInput
+                        value={search}
+                        onChange={setSearch}
+                        placeholder="Search entries by title, tag, or category..."
+                    />
+                    <div className="flex items-start justify-between gap-4">
+                        <DifficultyFilter selected={difficulty} onChange={setDifficulty} />
+                        {hasFilters && (
+                            <button
+                                type="button"
+                                onClick={reset}
+                                className="shrink-0 cursor-pointer font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-cyan-400"
+                            >
+                                × Reset
+                            </button>
+                        )}
+                    </div>
+                </div>
+
                 {filtered.length === 0 ? (
                     <EmptyState
                         message="No entries match your filters."
@@ -57,6 +80,6 @@ export function LibraryIndexUI({ categories, entries }: Props) {
                     <EntryList entries={filtered} />
                 )}
             </section>
-        </div>
+        </Container>
     )
 }

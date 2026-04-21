@@ -1,4 +1,49 @@
 /* Keyframes + custom animations.
  * Tailwind animations provided by tailwindcss-animate plugin (see globals.css).
- * Add custom @keyframes here (sheet slide, toast stagger, etc.) when needed.
+ * Add custom @keyframes here when needed.
  */
+
+/* VSCode-style indeterminate progress bar sweep.
+ * A ~30% wide bar translates across the track forever.
+ * Used by <Loading /> for route transitions.
+ */
+@keyframes bar-sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+.animate-bar-sweep {
+    animation: bar-sweep 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Subtle dim-pulse for dark-theme skeletons. The default Tailwind `animate-pulse`
+ * uses opacity 0.5 which washes out our `#1e1e1e` surface. This variant stays
+ * within the IDE tonal ramp (#1e1e1e ↔ #2d2d2d).
+ */
+@keyframes skeleton-dim-pulse {
+    0%,
+    100% {
+        background-color: #1e1e1e;
+    }
+    50% {
+        background-color: #2d2d2d;
+    }
+}
+
+.animate-skeleton {
+    animation: skeleton-dim-pulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-bar-sweep,
+    .animate-skeleton {
+        animation: none;
+    }
+    .animate-skeleton {
+        background-color: #1e1e1e;
+    }
+}

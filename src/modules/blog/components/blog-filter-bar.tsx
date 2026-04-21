@@ -19,9 +19,9 @@ export function BlogFilterBar(props: Props) {
             <SearchInput
                 value={props.search}
                 onChange={props.onSearchChange}
-                placeholder="Search posts…"
+                placeholder="Search posts by title, description, or tag..."
             />
-            <div className="flex items-start gap-3">
+            <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                     <TagFilterRow
                         tags={props.tags}
@@ -33,9 +33,9 @@ export function BlogFilterBar(props: Props) {
                     <button
                         type="button"
                         onClick={props.onReset}
-                        className="text-sm text-gray-500 hover:underline"
+                        className="cursor-pointer shrink-0 font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-cyan-400"
                     >
-                        Reset
+                        × Reset
                     </button>
                 )}
             </div>

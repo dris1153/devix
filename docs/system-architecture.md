@@ -15,12 +15,7 @@
 
 ## Layout system
 
-Two shells share a single React subtree:
-
-- **Plain** (default): `SiteHeader` + `<main>` + `SiteFooter`
-- **IDE**: `TopBar` + `Sidebar` + `<main>` + `StatusBar` + `CommandPalette`
-
-Preference is stored in `localStorage['devix.layoutMode']`. An inline `<script>` in `<head>` reads it synchronously before first paint and adds `layout-ide` class to `<html>`. `LayoutProvider` inspects the class on mount and picks the shell exactly once per session (no swap after mount). The toggle button writes localStorage then `location.reload()` — by design, to keep the provider trivial and avoid hydration mismatch.
+Single VSCode-style IDE shell: `TopBar` + `Sidebar` + `<main>` + `StatusBar` + `CommandPalette`. `LayoutProvider` renders `IDELayout` unconditionally. No runtime shell toggle.
 
 ## Middleware
 

@@ -18,13 +18,12 @@ export function TagFilterRow({ tags, activeTag, onSelect }: Props) {
                         type="button"
                         onClick={() => onSelect(isActive ? null : tag)}
                         aria-pressed={isActive}
-                        className={`rounded-full border px-3 py-1 text-sm transition ${
-                            isActive
-                                ? 'border-gray-900 bg-gray-900 text-white'
-                                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                        }`}
+                        className={`cursor-pointer rounded border px-2.5 py-1 font-mono text-[11px] tracking-wider uppercase transition-colors ${isActive
+                                ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-300'
+                                : 'border-[#2d2d2d] bg-[#181818] text-slate-400 hover:border-[#5d5d5d] hover:text-slate-200'
+                            }`}
                     >
-                        {tag}
+                        [{tag}]
                     </button>
                 )
             })}

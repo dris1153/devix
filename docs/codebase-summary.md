@@ -32,7 +32,7 @@ Pure, client-safe filter utilities live separately in `src/core/content/filters.
 
 ## Layout system
 
-Two shells: plain (default) + IDE (existing VSCode-style chrome: TopBar/Sidebar/StatusBar/CommandPalette). Preference stored in `localStorage['devix.layoutMode']`. Inline script in `<head>` sets `html.layout-ide` class synchronously before first paint. `LayoutProvider` reads the class once and selects the shell. Toggle button writes localStorage and calls `location.reload()` — no SSR mismatch, no subtree remount.
+Single IDE shell (VSCode-style chrome: `TopBar` / `Sidebar` / `StatusBar` / `CommandPalette`). `LayoutProvider` wraps children in `<IDELayout>` unconditionally.
 
 ## Directory layout (key paths)
 
@@ -47,7 +47,7 @@ src/
 │   └── content/                 # Content loaders (blog.ts, library.ts, filters.ts, types.ts)
 ├── components/
 │   ├── base/                    # 26 Radix-based primitives
-│   ├── layout/                  # IDELayout, PlainShell, SiteHeader, SiteFooter, LayoutToggleButton
+│   ├── layout/                  # IDELayout (TopBar, Sidebar, StatusBar, CommandPalette)
 │   ├── mdx-content.tsx          # <MDXRemote> wrapper with allowlist
 │   ├── breadcrumb.tsx, search-input.tsx, empty-state.tsx
 │   └── CommandPalette.tsx

@@ -1,6 +1,5 @@
 import React from 'react'
 import { GitBranch, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react'
-import { LayoutToggleButton } from './layout-toggle-button'
 
 export const StatusBar = () => {
     return (
@@ -28,7 +27,6 @@ export const StatusBar = () => {
                     <AlertCircle size={12} className="mr-1 ml-2" />
                     <span className="mt-[1px] opacity-80">0</span>
                 </div>
-                <LayoutToggleButton />
             </div>
         </footer>
     )

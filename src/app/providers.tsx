@@ -20,13 +20,6 @@ export default async function AppProviders({ children }: { children: React.React
 
     return (
         <html lang={locale} dir={dir}>
-            <head>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `(function(){try{if(localStorage.getItem('devix.layoutMode')==='ide')document.documentElement.classList.add('layout-ide');}catch(e){}})();`,
-                    }}
-                />
-            </head>
             <PreloadResources />
             <body className="antialiased">
                 <ReactScan />

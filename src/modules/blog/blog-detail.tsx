@@ -3,10 +3,11 @@ import { MDXContent } from '@/components/mdx-content'
 import { Breadcrumb } from '@/components/breadcrumb'
 import { formatDate } from '@/lib/format-date'
 import { TagPill } from './components/tag-pill'
+import { Container } from '@/components/base/container'
 
 export function BlogDetail({ blog }: { blog: Blog }) {
     return (
-        <article className="mx-auto max-w-3xl px-4 py-8">
+        <Container as="article">
             <Breadcrumb
                 items={[
                     { label: 'Home', href: '/' },
@@ -28,6 +29,6 @@ export function BlogDetail({ blog }: { blog: Blog }) {
             <div className="prose prose-lg dark:prose-invert max-w-none">
                 <MDXContent source={blog.source} />
             </div>
-        </article>
+        </Container>
     )
 }

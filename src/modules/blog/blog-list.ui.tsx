@@ -5,18 +5,21 @@ import { EmptyState } from '@/components/empty-state'
 import { BlogCard } from './components/blog-card'
 import { BlogFilterBar } from './components/blog-filter-bar'
 import { useBlogFilters } from './blog-list.script'
+import { Container } from '@/components/base/container'
 
 export function BlogListUI({ blogs, tags }: { blogs: Blog[]; tags: string[] }) {
     const { filtered, search, setSearch, activeTag, setActiveTag, reset, hasFilters } = useBlogFilters(blogs)
 
     return (
-        <div className="mx-auto max-w-4xl px-4 py-8">
-            <header className="mb-8">
-                <h1 className="text-3xl font-bold">Blog</h1>
-                <p className="mt-1 text-gray-500">
-                    {blogs.length} post{blogs.length !== 1 ? 's' : ''}
-                </p>
+        <Container>
+            <header className="mb-8 flex items-end justify-between border-b border-[#2d2d2d] pb-4">
+                <h1 className="font-mono text-3xl text-cyan-400">Latest Blogs</h1>
+                <div className="font-mono text-xs text-slate-500">
+                    {filtered.length}
+                    {hasFilters ? ` / ${blogs.length}` : ''} post{blogs.length !== 1 ? 's' : ''}
+                </div>
             </header>
+
             <BlogFilterBar
                 tags={tags}
                 search={search}
@@ -26,15 +29,19 @@ export function BlogListUI({ blogs, tags }: { blogs: Blog[]; tags: string[] }) {
                 hasFilters={hasFilters}
                 onReset={reset}
             />
+
             {filtered.length === 0 ? (
-                <EmptyState message="No posts match your filters." onReset={hasFilters ? reset : undefined} />
+                <EmptyState
+                    message="No posts match your filters."
+                    onReset={hasFilters ? reset : undefined}
+                />
             ) : (
-                <div className="grid gap-6">
+                <div className="grid gap-4">
                     {filtered.map((blog) => (
                         <BlogCard key={blog.slug} blog={blog} />
                     ))}
                 </div>
             )}
-        </div>
+        </Container>
     )
 }

@@ -62,3 +62,13 @@ export interface LibraryCategory {
     label: string
     count: number
 }
+
+export const CATEGORY_LABELS: Record<string, string> = {
+    hooks: 'Hooks',
+    components: 'Components',
+    effects: 'Effects',
+    webgl: 'WebGL',
+    functions: 'Functions',
+}
+
+export const KNOWN_CATEGORY_SLUGS = Object.keys(CATEGORY_LABELS)

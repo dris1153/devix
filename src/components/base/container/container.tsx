@@ -4,7 +4,7 @@ import { cn } from '@/utils'
 import { ComponentPropsWithoutRef, ReactElement } from 'react'
 
 type ValidElement<Props = any> =
-    | keyof Pick<HTMLElementTagNameMap, 'div' | 'header' | 'footer' | 'section' | 'main'>
+    | keyof Pick<HTMLElementTagNameMap, 'div' | 'header' | 'footer' | 'section' | 'main' | 'article'>
     | ((props: Props) => ReactElement)
 
 function Container<T extends ValidElement>({
@@ -20,7 +20,7 @@ function Container<T extends ValidElement>({
 }: { as?: T } & Omit<ComponentPropsWithoutRef<T>, 'as'>) {
     const Component = as ?? 'div'
 
-    return <Component className={cn('mx-auto w-full max-w-[1440px] px-3 md:px-6', className)} {...props} />
+    return <Component className={cn('mx-auto w-full max-w-[1840px] px-8 py-8 md:px-20', className)} {...props} />
 }
 
 export { Container }

@@ -7,24 +7,36 @@ export function EntryCard({ entry }: { entry: LibraryEntry }) {
     return (
         <Link
             href={`/library/${entry.category}/${entry.slug}`}
-            className="block rounded-lg border p-5 transition hover:border-gray-400"
+            className="group block rounded-lg border border-[#2d2d2d] bg-[#181818] p-5 transition-colors hover:border-[#5d5d5d]"
         >
             <div className="mb-2 flex items-start justify-between gap-3">
-                <h3 className="text-lg font-semibold">{entry.title}</h3>
+                <h3 className="text-base font-semibold text-slate-200 transition-colors group-hover:text-blue-400">
+                    {entry.title}
+                </h3>
                 <DifficultyBadge difficulty={entry.difficulty} />
             </div>
+            <div className="mb-3 font-mono text-[11px] text-slate-500">
+                ./{entry.category}/{entry.slug}.md
+            </div>
             {entry.description && (
-                <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">{entry.description}</p>
+                <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-slate-400">
+                    {entry.description}
+                </p>
             )}
-            <div className="flex items-center justify-between text-xs text-gray-500">
+            <div className="flex items-center justify-between gap-3">
                 <div className="flex flex-wrap gap-1.5">
                     {entry.tags.slice(0, 3).map((t) => (
-                        <span key={t} className="rounded-full bg-gray-100 px-2 py-0.5 dark:bg-gray-800">
-                            {t}
+                        <span
+                            key={t}
+                            className="rounded border border-yellow-700/50 bg-yellow-900/10 px-1.5 py-0.5 font-mono text-[10px] tracking-wider text-yellow-500"
+                        >
+                            [{t.toUpperCase()}]
                         </span>
                     ))}
                 </div>
-                <span>{formatDate(entry.updatedAt)}</span>
+                <span className="shrink-0 font-mono text-[11px] text-slate-500">
+                    {formatDate(entry.updatedAt)}
+                </span>
             </div>
         </Link>
     )

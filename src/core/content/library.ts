@@ -9,6 +9,7 @@ import {
     type LibraryCategory,
     SLUG_REGEX,
     isReservedSlug,
+    CATEGORY_LABELS,
 } from './types'
 
 const PROJECT_ROOT = path.resolve(fileURLToPath(import.meta.url), '../../../..')
@@ -19,14 +20,6 @@ const MATTER_OPTIONS = {
         yaml: (s: string) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
     },
 } as const
-
-const CATEGORY_LABELS: Record<string, string> = {
-    hooks: 'Hooks',
-    components: 'Components',
-    effects: 'Effects',
-    webgl: 'WebGL',
-    functions: 'Functions',
-}
 
 function assertSafePath(filePath: string, root: string): void {
     const stat = fs.lstatSync(filePath)

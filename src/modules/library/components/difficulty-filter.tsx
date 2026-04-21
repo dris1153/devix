@@ -4,6 +4,12 @@ import type { Difficulty } from '@/core/content/types'
 
 const ALL: Difficulty[] = ['beginner', 'intermediate', 'advanced']
 
+const activeTone: Record<Difficulty, string> = {
+    beginner: 'border-emerald-400/60 bg-emerald-400/10 text-emerald-300',
+    intermediate: 'border-yellow-400/60 bg-yellow-400/10 text-yellow-300',
+    advanced: 'border-red-400/60 bg-red-400/10 text-red-300',
+}
+
 interface Props {
     selected: Difficulty | null
     onChange: (next: Difficulty | null) => void
@@ -20,13 +26,13 @@ export function DifficultyFilter({ selected, onChange }: Props) {
                         type="button"
                         onClick={() => onChange(isActive ? null : d)}
                         aria-pressed={isActive}
-                        className={`rounded-full border px-3 py-1 text-sm capitalize ${
+                        className={`cursor-pointer rounded border px-2.5 py-1 font-mono text-[11px] tracking-wider uppercase transition-colors ${
                             isActive
-                                ? 'border-gray-900 bg-gray-900 text-white'
-                                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                                ? activeTone[d]
+                                : 'border-[#2d2d2d] bg-[#181818] text-slate-400 hover:border-[#5d5d5d] hover:text-slate-200'
                         }`}
                     >
-                        {d}
+                        [{d}]
                     </button>
                 )
             })}

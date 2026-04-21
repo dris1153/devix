@@ -1,8 +1,8 @@
 import React from 'react'
-import { Sidebar } from './Sidebar'
-import { TopBar } from './TopBar'
-import { StatusBar } from './StatusBar'
-import { CommandPalette } from '../CommandPalette'
+import { Sidebar } from './sidebar'
+import { TopBar } from './top-bar'
+import { StatusBar } from './status-bar'
+import { CommandPalette } from '../command-palette'
 
 export const IDELayout = ({ children }: { children: React.ReactNode }) => {
     return (
