@@ -7,6 +7,7 @@ import { Container } from '@/components/base/container'
 import { CategoryCard } from './components/category-card'
 import { DifficultyFilter } from './components/difficulty-filter'
 import { EntryList } from './components/entry-list'
+import { SortModeSelect } from './components/sort-mode-select'
 import { useLibraryIndexFilters } from './library-index.script'
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export function LibraryIndexUI({ categories, entries }: Props) {
-    const { filtered, search, setSearch, difficulty, setDifficulty, reset, hasFilters } =
+    const { filtered, search, setSearch, difficulty, setDifficulty, sortMode, setSortMode, reset, hasFilters } =
         useLibraryIndexFilters(entries)
 
     return (
@@ -58,7 +59,10 @@ export function LibraryIndexUI({ categories, entries }: Props) {
                         placeholder="Search entries by title, tag, or category..."
                     />
                     <div className="flex items-start justify-between gap-4">
-                        <DifficultyFilter selected={difficulty} onChange={setDifficulty} />
+                        <div className="flex flex-wrap items-start gap-2">
+                            <DifficultyFilter selected={difficulty} onChange={setDifficulty} />
+                            <SortModeSelect value={sortMode} onChange={setSortMode} />
+                        </div>
                         {hasFilters && (
                             <button
                                 type="button"

@@ -6,7 +6,7 @@ import { DifficultyBadge } from './difficulty-badge'
 export function EntryCard({ entry }: { entry: LibraryEntry }) {
     return (
         <Link
-            href={`/library/${entry.category}/${entry.slug}`}
+            href={`/library/${entry.category}/${entry.pathSegments.join('/')}`}
             className="group block rounded-lg border border-[#2d2d2d] bg-[#181818] p-5 transition-colors hover:border-[#5d5d5d]"
         >
             <div className="mb-2 flex items-start justify-between gap-3">
@@ -16,7 +16,7 @@ export function EntryCard({ entry }: { entry: LibraryEntry }) {
                 <DifficultyBadge difficulty={entry.difficulty} />
             </div>
             <div className="mb-3 font-mono text-[11px] text-slate-500">
-                ./{entry.category}/{entry.slug}.md
+                ./{entry.category}/{entry.pathSegments.join('/')}.md
             </div>
             {entry.description && (
                 <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-slate-400">

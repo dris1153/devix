@@ -1,9 +1,9 @@
 ---
-title: useDebounce
+title: Button
 difficulty: intermediate
 tags:
     - React
-    - Performance
+    - UI
 updatedAt: 2023-11-01
 ---
 

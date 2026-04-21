@@ -53,7 +53,9 @@ export interface Blog extends BlogFrontmatter {
 
 export interface LibraryEntry extends LibraryFrontmatter {
     category: string
+    subcategory?: string
     slug: string
+    pathSegments: string[]
     source: string
 }
 
@@ -72,3 +74,34 @@ export const CATEGORY_LABELS: Record<string, string> = {
 }
 
 export const KNOWN_CATEGORY_SLUGS = Object.keys(CATEGORY_LABELS)
+
+export const SUBCATEGORY_LABELS: Record<string, Record<string, string>> = {
+    hooks: {
+        'state-management': 'State Management',
+        'ui-and-dom': 'UI and DOM',
+        utilities: 'Utilities',
+        lifecycle: 'Lifecycle',
+    },
+    components: {
+        layout: 'Layout',
+        inputs: 'Inputs',
+        buttons: 'Buttons',
+        navigation: 'Navigation',
+        combobox: 'Combobox',
+    },
+}
+
+function titleCase(slug: string): string {
+    return slug
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ')
+}
+
+export function getSubcategoryLabel(category: string, sub: string): string {
+    return SUBCATEGORY_LABELS[category]?.[sub] ?? titleCase(sub)
+}
+
+export type LibraryNode =
+    | { kind: 'folder'; slug: string; label: string; children: LibraryNode[] }
+    | { kind: 'file'; slug: string; title: string; href: string }

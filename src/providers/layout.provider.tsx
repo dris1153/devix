@@ -3,10 +3,16 @@
 import { type ReactNode } from 'react'
 import { IDELayout } from '@/components/layout/ide-layout'
 import { Toaster } from '@/components/base/toaster'
+import type { LibraryNode } from '@/core/content/types'
 
-export function LayoutProvider({ children }: { children: ReactNode }) {
+interface Props {
+    children: ReactNode
+    libraryTree: LibraryNode[]
+}
+
+export function LayoutProvider({ children, libraryTree }: Props) {
     return (
-        <IDELayout>
+        <IDELayout libraryTree={libraryTree}>
             {children}
             <Toaster />
         </IDELayout>

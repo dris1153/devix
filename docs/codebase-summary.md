@@ -17,22 +17,34 @@ Features follow `src/modules/<feature>/<feature>.module.tsx` pattern:
 
 ## Content pipeline
 
-Markdown/MDX in `content/blogs/*.{md,mdx}` and `content/library/<category>/*.{md,mdx}` is loaded at build time by `src/core/content/{blog,library}.ts` via `gray-matter` + `zod`. MDX is rendered by `<MDXRemote>` (`next-mdx-remote/rsc`) in server components.
+Markdown/MDX in `content/blogs/*.{md,mdx}` and `content/library/<category>/[subcategory]/*.{md,mdx}` is loaded at build time by `src/core/content/{blog,library}.ts` via `gray-matter` + `zod`. MDX is rendered by `<MDXRemote>` (`next-mdx-remote/rsc`) in server components.
+
+Library supports **flat-or-3-level nesting**: a file may sit directly under a category folder OR inside one subcategory folder. Examples:
+
+- `content/library/hooks/use-foo.md` → `/library/hooks/use-foo` (flat)
+- `content/library/hooks/utilities/use-debounce.md` → `/library/hooks/utilities/use-debounce` (nested)
 
 Loaders enforce:
 
-- Positive published allowlist (`published === true`)
+- Positive published allowlist (`published === true`) — blogs only
 - Zod frontmatter validation (strict — unknown keys rejected)
-- Slug regex (`^[a-z0-9][a-z0-9-]{0,62}$`)
-- Reserved-slug check (NFKC-normalized)
+- Slug regex (`^[a-z0-9][a-z0-9-]{0,62}$`) at every depth
+- Reserved-slug check (NFKC-normalized) at every depth
 - Symlink rejection + realpath containment
-- `(category, slug)` uniqueness for library entries
+- `(category, subcategory, slug)` uniqueness for library entries
+- Hidden files/folders (`startsWith('.')`) silently skipped
+- Flat-slug-vs-sibling-folder collision throw (prevents URL shadowing)
+- Depth > 3 throw with file path
 
-Pure, client-safe filter utilities live separately in `src/core/content/filters.ts` so `'use client'` modules can consume them without pulling in `node:fs`.
+Pure, client-safe filter utilities live separately in `src/core/content/filters.ts` so `'use client'` modules can consume them without pulling in `node:fs`. `getLibraryTree()` produces sidebar-ready `LibraryNode[]` (folder | file) — alpha-sorted for VSCode feel.
+
+Subcategory labels are configured per-category in `SUBCATEGORY_LABELS` map; fallback to title-case of slug.
 
 ## Layout system
 
-Single IDE shell (VSCode-style chrome: `TopBar` / `Sidebar` / `StatusBar` / `CommandPalette`). `LayoutProvider` wraps children in `<IDELayout>` unconditionally.
+Single IDE shell (VSCode-style chrome: `TopBar` / `Sidebar` / `StatusBar` / `CommandPalette`). `LayoutProvider` wraps children in `<IDELayout>` unconditionally and passes a pre-computed `libraryTree` prop through to `Sidebar`.
+
+**Sidebar tree** — recursive `<LibraryTree>` renders `LibraryNode[]`. Collapse state persists in `localStorage['devix.sidebar.openFolders']`; default lần đầu = tất cả folder mở. Auto-expands ancestors khi `usePathname()` matches a nested file (runs once per pathname change — user can manually re-collapse after).
 
 ## Directory layout (key paths)
 
@@ -40,7 +52,7 @@ Single IDE shell (VSCode-style chrome: `TopBar` / `Sidebar` / `StatusBar` / `Com
 src/
 ├── app/                         # Next.js App Router
 │   ├── blog/                    # /blog, /blog/[slug]
-│   ├── library/                 # /library, /library/[category], /library/[category]/[slug]
+│   ├── library/                 # /library, /library/[category], /library/[category]/[...path]
 │   ├── layout.tsx, providers.tsx, page.tsx
 ├── core/
 │   ├── configs/, constants/, enums/, types/

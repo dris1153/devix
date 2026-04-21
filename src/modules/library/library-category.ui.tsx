@@ -1,11 +1,14 @@
 'use client'
 
+import { useMemo } from 'react'
 import type { LibraryCategory, LibraryEntry } from '@/core/content/types'
+import { getSubcategoryLabel } from '@/core/content/types'
 import { SearchInput } from '@/components/search-input'
 import { EmptyState } from '@/components/empty-state'
 import { Container } from '@/components/base/container'
 import { DifficultyFilter } from './components/difficulty-filter'
 import { EntryList } from './components/entry-list'
+import { SortModeSelect } from './components/sort-mode-select'
 import { useLibraryCategoryFilters } from './library-category.script'
 
 interface Props {
@@ -14,8 +17,23 @@ interface Props {
 }
 
 export function LibraryCategoryUI({ category, entries }: Props) {
-    const { filtered, search, setSearch, difficulty, setDifficulty, reset, hasFilters } =
+    const { filtered, search, setSearch, difficulty, setDifficulty, sortMode, setSortMode, reset, hasFilters } =
         useLibraryCategoryFilters(entries)
+
+    // Group entries by subcategory; preserve sorted order from hook
+    const { flatEntries, groups } = useMemo(() => {
+        const flat: LibraryEntry[] = []
+        const map = new Map<string, LibraryEntry[]>()
+        for (const e of filtered) {
+            if (!e.subcategory) flat.push(e)
+            else {
+                if (!map.has(e.subcategory)) map.set(e.subcategory, [])
+                map.get(e.subcategory)!.push(e)
+            }
+        }
+        const sortedGroups = [...map.entries()].sort(([a], [b]) => a.localeCompare(b))
+        return { flatEntries: flat, groups: sortedGroups }
+    }, [filtered])
 
     return (
         <Container>
@@ -39,7 +57,10 @@ export function LibraryCategoryUI({ category, entries }: Props) {
                     placeholder={`Search ${category.label}...`}
                 />
                 <div className="flex items-start justify-between gap-4">
-                    <DifficultyFilter selected={difficulty} onChange={setDifficulty} />
+                    <div className="flex flex-wrap items-start gap-2">
+                        <DifficultyFilter selected={difficulty} onChange={setDifficulty} />
+                        <SortModeSelect value={sortMode} onChange={setSortMode} />
+                    </div>
                     {hasFilters && (
                         <button
                             type="button"
@@ -58,7 +79,17 @@ export function LibraryCategoryUI({ category, entries }: Props) {
                     onReset={hasFilters ? reset : undefined}
                 />
             ) : (
-                <EntryList entries={filtered} />
+                <div className="space-y-10">
+                    {flatEntries.length > 0 && <EntryList entries={flatEntries} />}
+                    {groups.map(([subSlug, subEntries]) => (
+                        <section key={subSlug}>
+                            <h2 className="mb-4 font-mono text-sm tracking-widest text-slate-400 uppercase">
+                                // {getSubcategoryLabel(category.slug, subSlug)}
+                            </h2>
+                            <EntryList entries={subEntries} />
+                        </section>
+                    ))}
+                </div>
             )}
         </Container>
     )

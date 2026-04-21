@@ -6,6 +6,7 @@ published: true
 tags:
     - React
     - Internals
+    - Internals2
 ---
 
 # Building a Custom React Renderer

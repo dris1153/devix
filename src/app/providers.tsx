@@ -7,6 +7,7 @@ import { languages } from '@/translations/languages'
 import { cookies } from 'next/headers'
 import { PreloadResources } from './preload-resources'
 import { DEFAULT_LOCALE, LOCALE_KEY, SUPPORTED_LOCALES, type SupportedLocale } from '@/core/constants/common.constant'
+import { getLibraryTree } from '@/core/content/library'
 
 function isValidLocale(value: string): value is SupportedLocale {
     return (SUPPORTED_LOCALES as readonly string[]).includes(value)
@@ -17,6 +18,7 @@ export default async function AppProviders({ children }: { children: React.React
     const rawLocale = cookieStore.get(LOCALE_KEY)?.value
     const locale = rawLocale && isValidLocale(rawLocale) ? rawLocale : DEFAULT_LOCALE
     const dir = languages.find((l) => l.locale === locale)?.rtl ? 'rtl' : 'ltr'
+    const libraryTree = getLibraryTree()
 
     return (
         <html lang={locale} dir={dir}>
@@ -25,7 +27,7 @@ export default async function AppProviders({ children }: { children: React.React
                 <ReactScan />
                 <LinguiProvider initialLocale={locale} initialMessages={pickMessages(locale)}>
                     <ReactQueryProvider>
-                        <LayoutProvider>{children}</LayoutProvider>
+                        <LayoutProvider libraryTree={libraryTree}>{children}</LayoutProvider>
                     </ReactQueryProvider>
                 </LinguiProvider>
             </body>

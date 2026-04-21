@@ -1,22 +1,26 @@
 import Link from 'next/link'
 import type { LibraryEntry } from '@/core/content/types'
+import { getSubcategoryLabel } from '@/core/content/types'
 import { MDXContent } from '@/components/mdx-content'
-import { Breadcrumb } from '@/components/breadcrumb'
+import { Breadcrumb, type BreadcrumbItem } from '@/components/breadcrumb'
 import { Container } from '@/components/base/container'
 import { formatDate } from '@/lib/format-date'
 import { DifficultyBadge } from './components/difficulty-badge'
 
 export function LibraryDetail({ entry }: { entry: LibraryEntry }) {
+    const items: BreadcrumbItem[] = [
+        { label: 'Home', href: '/' },
+        { label: 'Library', href: '/library' },
+        { label: entry.category, href: `/library/${entry.category}` },
+        ...(entry.subcategory
+            ? [{ label: getSubcategoryLabel(entry.category, entry.subcategory) }]
+            : []),
+        { label: entry.title },
+    ]
+
     return (
         <Container as="article">
-            <Breadcrumb
-                items={[
-                    { label: 'Home', href: '/' },
-                    { label: 'Library', href: '/library' },
-                    { label: entry.category, href: `/library/${entry.category}` },
-                    { label: entry.title },
-                ]}
-            />
+            <Breadcrumb items={items} />
             <header className="mb-8 border-b border-[#2d2d2d] pb-6">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
                     <h1 className="font-mono text-3xl text-cyan-400">{entry.title}</h1>
