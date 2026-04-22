@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "pnpm run translations && next dev --turbopack",
-        "build": "pnpm run format && pnpm run translations && next build",
+        "build": "pnpm run translations && next build",
         "start": "next start",
         "lint": "next lint",
         "lint:fix": "eslint ./src --fix",
