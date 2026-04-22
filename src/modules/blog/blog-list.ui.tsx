@@ -13,7 +13,7 @@ export function BlogListUI({ blogs, tags }: { blogs: Blog[]; tags: string[] }) {
     return (
         <Container>
             <header className="mb-8 flex items-end justify-between border-b border-[#2d2d2d] pb-4">
-                <h1 className="font-mono text-3xl text-cyan-400">Latest Blogs</h1>
+                <h1 className="font-mono text-3xl text-primary-foreground">Latest Blogs</h1>
                 <div className="font-mono text-xs text-slate-500">
                     {filtered.length}
                     {hasFilters ? ` / ${blogs.length}` : ''} post{blogs.length !== 1 ? 's' : ''}

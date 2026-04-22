@@ -3,6 +3,7 @@ import type { LibraryEntry } from '@/core/content/types'
 import { getSubcategoryLabel } from '@/core/content/types'
 import { MDXContent } from '@/components/mdx-content'
 import { Breadcrumb, type BreadcrumbItem } from '@/components/breadcrumb'
+import { TabRegistrar } from '@/components/tab-registrar'
 import { Container } from '@/components/base/container'
 import { formatDate } from '@/lib/format-date'
 import { DifficultyBadge } from './components/difficulty-badge'
@@ -20,10 +21,11 @@ export function LibraryDetail({ entry }: { entry: LibraryEntry }) {
 
     return (
         <Container as="article">
+            <TabRegistrar label={entry.title} kind="library" />
             <Breadcrumb items={items} />
             <header className="mb-8 border-b border-[#2d2d2d] pb-6">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
-                    <h1 className="font-mono text-3xl text-cyan-400">{entry.title}</h1>
+                    <h1 className="font-mono text-3xl text-primary-foreground font-bold">{entry.title}</h1>
                     <DifficultyBadge difficulty={entry.difficulty} />
                 </div>
                 <p className="font-mono text-xs text-slate-500">
@@ -47,7 +49,7 @@ export function LibraryDetail({ entry }: { entry: LibraryEntry }) {
             </div>
             <Link
                 href={`/library/${entry.category}`}
-                className="inline-block font-mono text-xs tracking-wider text-slate-500 uppercase transition-colors hover:text-cyan-400"
+                className="inline-block font-mono text-xs tracking-wider text-slate-500 uppercase transition-colors hover:text-primary-foreground"
             >
                 ← Back to {entry.category}
             </Link>

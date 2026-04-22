@@ -150,7 +150,7 @@ export const CommandPalette = ({ blogs = [], library = [] }: Props) => {
                                 className={itemClass}
                             >
                                 <span className="flex items-center">
-                                    <Icon size={14} className="mr-2 text-cyan-400" />
+                                    <Icon size={14} className="mr-2 text-primary-foreground" />
                                     {item.label}
                                 </span>
                                 <span className={hintClass}>{item.hint}</span>

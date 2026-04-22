@@ -42,9 +42,13 @@ Subcategory labels are configured per-category in `SUBCATEGORY_LABELS` map; fall
 
 ## Layout system
 
-Single IDE shell (VSCode-style chrome: `TopBar` / `Sidebar` / `StatusBar` / `CommandPalette`). `LayoutProvider` wraps children in `<IDELayout>` unconditionally and passes a pre-computed `libraryTree` prop through to `Sidebar`.
+Single IDE shell (VSCode-style chrome: `TopBar` / `Sidebar` / `TabBar` / `StatusBar` / `CommandPalette`). `LayoutProvider` wraps children in `<IDELayout>` unconditionally and passes a pre-computed `libraryTree` prop through to `Sidebar`.
 
 **Sidebar tree** — recursive `<LibraryTree>` renders `LibraryNode[]`. Collapse state persists in `localStorage['devix.sidebar.openFolders']`; default lần đầu = tất cả folder mở. Auto-expands ancestors khi `usePathname()` matches a nested file (runs once per pathname change — user can manually re-collapse after).
+
+**Tab bar** — VSCode-style tab strip between TopBar and `<main>`, only above the editor area (not sidebar). Reads from `src/stores/tabs.store.ts` (Zustand + persist middleware). 1 tab per unique detail pathname. Active state **derived** from `usePathname()` at render (no stored `activeTab` → no rehydrate race). Tab auto-registers on detail page mount via `useRegisterTab()` hook (used inside `<TabRegistrar />` client wrapper in `blog-detail.tsx` + `library-detail.tsx`). Close active tab → navigate to left neighbor → right → `/`. Middle-click + Ctrl/Cmd+W shortcuts (Ctrl+W best-effort; some browsers intercept). 404 page renders `<StaleTabCleanup />` to remove tabs pointing to deleted content with toast. localStorage key `devix.tabs` persists across reloads.
+
+**MDX link routing** — `src/components/mdx-content.tsx` overrides `<a>` via `ALLOWED_COMPONENTS.a`. Branches: `#anchor` → plain `<a>` (TOC jump); `http(s)://` / `mailto:` / `tel:` → `target="_blank" rel="noopener noreferrer"` (new browser tab); else Next `<Link>` (SPA nav — auto-registers tab).
 
 ## Directory layout (key paths)
 

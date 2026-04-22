@@ -19,8 +19,8 @@ export function TagFilterRow({ tags, activeTag, onSelect }: Props) {
                         onClick={() => onSelect(isActive ? null : tag)}
                         aria-pressed={isActive}
                         className={`cursor-pointer rounded border px-2.5 py-1 font-mono text-[11px] tracking-wider uppercase transition-colors ${isActive
-                                ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-300'
-                                : 'border-[#2d2d2d] bg-[#181818] text-slate-400 hover:border-[#5d5d5d] hover:text-slate-200'
+                            ? 'border-primary-foreground/60 bg-primary-foreground/10 text-primary-foreground'
+                            : 'border-[#2d2d2d] bg-[#181818] text-slate-400 hover:border-[#5d5d5d] hover:text-slate-200'
                             }`}
                     >
                         [{tag}]

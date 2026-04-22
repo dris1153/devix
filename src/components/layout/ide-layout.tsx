@@ -2,6 +2,7 @@ import React from 'react'
 import { Sidebar } from './sidebar'
 import { TopBar } from './top-bar'
 import { StatusBar } from './status-bar'
+import { TabBar } from './tab-bar'
 import { CommandPalette } from '../command-palette'
 import type { LibraryNode } from '@/core/content/types'
 
@@ -16,7 +17,10 @@ export const IDELayout = ({ children, libraryTree }: Props) => {
             <TopBar />
             <div className="flex flex-1 overflow-hidden">
                 <Sidebar libraryTree={libraryTree} />
-                <main className="relative flex-1 overflow-auto bg-[#0d1117]">{children}</main>
+                <div className="flex min-w-0 flex-1 flex-col">
+                    <TabBar />
+                    <main className="relative flex-1 overflow-auto bg-[#0d1117]">{children}</main>
+                </div>
             </div>
             <StatusBar />
             <CommandPalette />

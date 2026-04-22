@@ -1,6 +1,7 @@
 import type { Blog } from '@/core/content/types'
 import { MDXContent } from '@/components/mdx-content'
 import { Breadcrumb } from '@/components/breadcrumb'
+import { TabRegistrar } from '@/components/tab-registrar'
 import { formatDate } from '@/lib/format-date'
 import { TagPill } from './components/tag-pill'
 import { Container } from '@/components/base/container'
@@ -8,6 +9,7 @@ import { Container } from '@/components/base/container'
 export function BlogDetail({ blog }: { blog: Blog }) {
     return (
         <Container as="article">
+            <TabRegistrar label={blog.title} kind="blog" />
             <Breadcrumb
                 items={[
                     { label: 'Home', href: '/' },

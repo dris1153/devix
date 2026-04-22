@@ -42,7 +42,7 @@ export function LibraryCategoryUI({ category, entries }: Props) {
                     src / library / {category.slug}
                 </div>
                 <div className="flex items-end justify-between gap-4">
-                    <h1 className="font-mono text-3xl text-cyan-400">{category.label}</h1>
+                    <h1 className="font-mono text-3xl text-primary-foreground">{category.label}</h1>
                     <div className="font-mono text-xs text-slate-500">
                         {filtered.length}
                         {hasFilters ? ` / ${entries.length}` : ''} entr{entries.length === 1 ? 'y' : 'ies'}
@@ -65,7 +65,7 @@ export function LibraryCategoryUI({ category, entries }: Props) {
                         <button
                             type="button"
                             onClick={reset}
-                            className="shrink-0 cursor-pointer font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-cyan-400"
+                            className="shrink-0 cursor-pointer font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-primary-foreground"
                         >
                             × Reset
                         </button>

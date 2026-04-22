@@ -22,7 +22,7 @@ export function LibraryIndexUI({ categories, entries }: Props) {
     return (
         <Container>
             <header className="mb-8 flex items-end justify-between border-b border-[#2d2d2d] pb-4">
-                <h1 className="font-mono text-3xl text-cyan-400">Knowledge Library</h1>
+                <h1 className="font-mono text-3xl text-primary-foreground">Knowledge Library</h1>
                 <div className="font-mono text-xs text-slate-500">
                     {filtered.length}
                     {hasFilters ? ` / ${entries.length}` : ''} entr{entries.length === 1 ? 'y' : 'ies'}
@@ -67,7 +67,7 @@ export function LibraryIndexUI({ categories, entries }: Props) {
                             <button
                                 type="button"
                                 onClick={reset}
-                                className="shrink-0 cursor-pointer font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-cyan-400"
+                                className="shrink-0 cursor-pointer font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-primary-foreground"
                             >
                                 × Reset
                             </button>

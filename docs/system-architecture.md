@@ -12,16 +12,30 @@
 
 ## MDX rendering
 
-- `src/components/mdx-content.tsx` wraps `<MDXRemote source={...}>` with a sealed `ALLOWED_COMPONENTS = {}`. New named components must be added explicitly — authors cannot inject arbitrary site components through MDX.
+- `src/components/mdx-content.tsx` wraps `<MDXRemote source={...}>` with `ALLOWED_COMPONENTS = { a: A }`. Only the `<a>` override is exposed; other named components must be added explicitly — authors cannot inject arbitrary site components through MDX.
+- `<A>` branches: `#anchor` → plain `<a>` (TOC jump), `http(s)://` / `mailto:` / `tel:` → `target="_blank" rel="noopener noreferrer"`, else Next `<Link>` for SPA nav.
 - Plugins: `remark-gfm` (tables, footnotes) + `rehype-pretty-code` with `github-dark` theme.
 
 ## Layout system
 
-Single VSCode-style IDE shell: `TopBar` + `Sidebar` + `<main>` + `StatusBar` + `CommandPalette`. `LayoutProvider` renders `IDELayout` unconditionally with a `libraryTree` prop (server-computed via `getLibraryTree()` in `AppProviders`). No runtime shell toggle.
+Single VSCode-style IDE shell: `TopBar` + `Sidebar` + `TabBar` + `<main>` + `StatusBar` + `CommandPalette`. `LayoutProvider` renders `IDELayout` unconditionally with a `libraryTree` prop (server-computed via `getLibraryTree()` in `AppProviders`). No runtime shell toggle.
 
 ## Sidebar tree
 
 `getLibraryTree()` at build-time → `LibraryNode[]` (discriminated union folder | file). Serialized through `AppProviders` → `LayoutProvider` → `IDELayout` → `Sidebar`. Sidebar renders recursive `TreeNode`. Collapse state persists in `localStorage['devix.sidebar.openFolders']`; auto-expand ancestors on every `usePathname()` change (user may manually collapse after — effect re-fires only on next path change). Default first-visit: all folders expanded.
+
+## Tab bar
+
+VSCode-style editor tab strip between TopBar and `<main>` (covers editor area only; not the sidebar).
+
+- **Store**: `src/stores/tabs.store.ts` — Zustand with `persist` middleware, key `devix.tabs`, `skipHydration: true`. State = `{ tabs: Tab[] }`. Actions: `openTab`, `closeTab` (returns `{ neighborPathname }`), `removeStale`.
+- **Active state**: NOT stored. Derived at render from `usePathname()` (`tab.pathname === pathname`). Avoids rehydrate-race where persisted active could disagree with current URL.
+- **Rehydration**: `TabBar` calls `useTabsStore.persist.rehydrate()` inside `useEffect` after mount → SSR + first client render both empty → no mismatch. Brief empty-strip flash on reload before hydration is an accepted tradeoff.
+- **Tab identity**: 1 tab per unique detail pathname. `openTab` upserts; label/kind refreshed on re-visit.
+- **Registration**: Detail pages render `<TabRegistrar label kind />` (client component wrapping `useRegisterTab`). On mount + pathname change, calls `openTab` with current pathname + meta. List / home pages do not register, so `activeTab` derives to no match → no highlight.
+- **Close logic**: `closeTab(pathname)` returns `{ neighborPathname }` (left → right → null). If closing the tab matching current pathname, caller `router.push(neighborPathname ?? '/')`.
+- **Keyboard**: middle-click (`onAuxClick` with `button === 1`) always works. Ctrl/Cmd+W is best-effort — some browsers intercept to close the browser tab.
+- **Stale cleanup**: `src/app/not-found.tsx` renders `<StaleTabCleanup />` — `useEffect` calls `removeStale(pathname)` + toast "file no longer exists" when a tab points to deleted content.
 
 ## Middleware
 

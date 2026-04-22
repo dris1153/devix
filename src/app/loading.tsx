@@ -6,7 +6,7 @@ export default function Loading() {
                 aria-hidden
                 className="absolute top-0 right-0 left-0 h-[2px] overflow-hidden bg-[#1e1e1e]"
             >
-                <div className="animate-bar-sweep h-full w-[30%] bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+                <div className="animate-bar-sweep h-full w-[30%] bg-gradient-to-r from-transparent via-primary to-transparent" />
             </div>
 
             {/* Skeleton body — mirrors Container + card list layout */}

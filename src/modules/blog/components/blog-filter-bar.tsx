@@ -33,7 +33,7 @@ export function BlogFilterBar(props: Props) {
                     <button
                         type="button"
                         onClick={props.onReset}
-                        className="cursor-pointer shrink-0 font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-cyan-400"
+                        className="cursor-pointer shrink-0 font-mono text-[11px] tracking-wider text-slate-500 uppercase transition-colors hover:text-primary-foreground"
                     >
                         × Reset
                     </button>

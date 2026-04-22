@@ -14,7 +14,7 @@ export function EmptyState({ message = 'Nothing matches your filters.', onReset 
                 <button
                     type="button"
                     onClick={onReset}
-                    className="mt-4 font-mono text-xs tracking-wider text-cyan-400 uppercase transition-colors hover:text-cyan-300"
+                    className="mt-4 font-mono text-xs tracking-wider text-primary-foreground uppercase transition-colors hover:text-cyan-300"
                 >
                     × Reset filters
                 </button>
